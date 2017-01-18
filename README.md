@@ -9,7 +9,7 @@ Type the following:
   ~/cmps12a/pa1/Lawn.java
 ```
 git clone https://github.com/legendddhgf/CMPS012A-pt.w17-grading-scripts.git
-cd CMPS012A-pt.w17-gradings-scripts/pa1
+cd CMPS012A-pt.w17-grading-scripts/pa1
 cp <PATH_TO_LAWN.JAVA> .
 ./pa1.sh
 ```
