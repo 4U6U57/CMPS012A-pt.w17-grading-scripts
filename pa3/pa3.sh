@@ -1,40 +1,42 @@
 #/bin/bash
+# cmps012a-pt.w17 grading
+# usage: pa3.sh
+# (run within your pa3 directory to test your code)
 
+SRCDIR=https://raw.githubusercontent.com/legendddhgf/CMPS012A-pt.w17-grading-scripts/master/pa3
+
+# Get all necessary extras
+for TYPE in in model-out; do
+  for NUM in $(seq 1 6); do
+    wget -n $SRCDIR/$TYPE$NUM.txt
+  done
+done
+
+# Compile code
 javac GCD.java
+
+# Run tests
 echo "If nothing between '=' signs, then test is passed::"
-echo "Test 1:"
-echo "=========="
-java GCD < in1.txt > out1.txt
-diff -bBw out1.txt model-out1.txt > diff1.txt
-cat diff1.txt
-echo "=========="
-echo "Test 2:"
-echo "=========="
-java GCD < in2.txt > out2.txt
-diff -bBw out2.txt model-out2.txt > diff2.txt
-cat diff2.txt
-echo "=========="
-echo "Test 3:"
-echo "=========="
-java GCD < in3.txt > out3.txt
-diff -bBw out3.txt model-out3.txt > diff3.txt
-cat diff3.txt
-echo "Test 4:"
-echo "=========="
-java GCD < in4.txt > out4.txt
-diff -bBw out4.txt model-out4.txt > diff4.txt
-cat diff4.txt
-echo "=========="
-echo "Test 5:"
-echo "=========="
-java GCD < in5.txt > out5.txt
-diff -bBw out5.txt model-out5.txt > diff5.txt
-cat diff5.txt
-echo "=========="
-echo "Test 6:"
-echo "=========="
-java GCD < in6.txt > out6.txt
-diff -bBw out6.txt model-out6.txt > diff6.txt
-cat diff6.txt
-echo "=========="
+for NUM in $(seq 1 6); do
+  echo "Test $NUM:"
+  echo "=========="
+  java GCD < in$NUM.txt > out$NUM.txt
+  diff -bBwu out$NUM.txt model-out$NUM.txt > diff$NUM.txt
+  cat diff$NUM.txt
+  echo "=========="
+done
 rm *.class
+
+# Delete all extras
+for TYPE in in model-out; do
+  for NUM in $(seq 1 6); do
+    rm -f $SRCDIR/$TYPE$NUM.txt
+  done
+done
+
+# Delete diff files if empty
+for NUM in $(seq 1 6); do
+  if [[ -z diff$NUM.txt ]]; then
+    rm -f diff$NUM.txt
+  fi
+done
