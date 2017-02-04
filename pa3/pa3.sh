@@ -8,7 +8,7 @@ SRCDIR=https://raw.githubusercontent.com/legendddhgf/CMPS012A-pt.w17-grading-scr
 # Get all necessary extras
 for TYPE in in model-out; do
   for NUM in $(seq 1 6); do
-    wget -n $SRCDIR/$TYPE$NUM.txt
+    curl $SRCDIR/$TYPE$NUM.txt > $TYPE$NUM.txt
   done
 done
 
@@ -25,18 +25,6 @@ for NUM in $(seq 1 6); do
   cat diff$NUM.txt
   echo "=========="
 done
-rm *.class
 
-# Delete all extras
-for TYPE in in model-out; do
-  for NUM in $(seq 1 6); do
-    rm -f $SRCDIR/$TYPE$NUM.txt
-  done
-done
+rm -f *.class
 
-# Delete diff files if empty
-for NUM in $(seq 1 6); do
-  if [[ -z diff$NUM.txt ]]; then
-    rm -f diff$NUM.txt
-  fi
-done
