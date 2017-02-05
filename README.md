@@ -17,3 +17,4 @@ Click on the relevant link below for more information on an assignment.
 
 - [pa1](pa1/README.md)
 - [pa3](pa3/README.md)
+- [lab4](lab4/README.md)
