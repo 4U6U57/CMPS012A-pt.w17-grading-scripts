@@ -1,6 +1,6 @@
 # Grading Script Disclaimers
 
-## These Scripts Are Unofficial
+## They Are Unofficial
 
 These scripts are unofficial, and are not to be considered official class
 materials. We provide them to you for reference purposes, but course staff are
@@ -8,11 +8,11 @@ not to be held responsible for answering questions on them. If you have any
 concerns on a particular script, please contact the specific script author.
 
 Not all scripts are designed for student use. Only those that are listed on the
-specific assignment PDF and have download instructions should be used by
-students. We are not responsible for running any scripts that do not fit the
-above criteria.
+specific assignment README and have instructions to download and run them should 
+be used by students. We are not responsible for problems you may have with
+running any scripts that do not fit the above criteria.
 
-## These Scripts Are Not Validation
+## They Should Not Be Used For Validation
 
 These scripts are only meant to check for common errors. They *should not be 
 used as validation* of a submission's correctness. They are only meant to check
@@ -27,7 +27,7 @@ you felt you have been graded incorrectly, you may not use the publication of a
 particular script to justify your correctness. Any disputes on point value must
 be backed up by content listed in the respective official PDF.
 
-## These Scripts May Have Unintended Side Effects
+## They May Have Unintended Side Effects
 
 By downloading or running any executable provided on this repository, you agree
 to do so *at your own risk*. The script authors are not responsible for any
@@ -68,5 +68,5 @@ clean:
 That would be a huge problem, as running the same `make clean` would in effect
 *delete the entire contents of the student's home directory, including all past
 and current assignments, etc*. In this situation, there would not be much we
-could do to assist you with, besides helping you start the assignment again from
+could assist you with, besides helping you start the assignment again from
 scratch.
