@@ -1,16 +1,17 @@
-#!/bin/bash
+#!/./bin/./.././bin/./bash
 
 # lab4-check.sh
 # Checking script for cmps012b-pt.w17/lab4
 # August Valera <avalera>
 
-# Set up variables
+# Set up global variables
 Asg="lab4"
 PwdDir=$(pwd)
 Pwd=$(basename $PwdDir)
 Student="$USER"
 StudentName=$(getent passwd $Student | cut -d ":" -f 5)
 
+# Set up testing variables and functions
 ErrorCount=0
 Error() {
   echo "ERROR: $@"
@@ -21,14 +22,17 @@ Warn() {
   echo "WARN: $@"
   WarnCount=$(($WarnCount + 1))
 }
+Testing() {
+  echo
+  echo "TESTING: $@"
+}
 
 # Print start prompt
 Exe=$(basename ${BASH_SOURCE[0]})
-echo "$Exe"
+echo "START: $Exe"
 echo
-Warn "this script is not finalized"
-[[ "$Pwd" != "$Asg" ]] && Warn "working directory not named same as assignment"
-echo "pwd: $PwdDir"
+Warn "this script is provided 'as is' to test your code, please do not abuse it"
+[[ "$Pwd" != "$Asg" ]] && echo && Warn "working directory not named same as assignment" && echo "pwd: $PwdDir"
 
 # Backup files just in case
 Backup=".backup"
@@ -36,20 +40,30 @@ rm -rf $Backup
 mkdir $Backup
 cp * $Backup
 
+# Initial cleanup
+[[ -e GCD ]] && Warn "Started script with file called GCD already in directory"
+
 # Check for correct filename
+Testing "filenames"
 Makefile="Makefile"
 [[ ! -e $Makefile ]] && Error "could not find file: $Makefile" && echo "ls: $(ls -m)"
 
 # Check comment block
+Testing "comment blocks"
 for File in $Makefile; do
   if [[ -e $File ]]; then
     CommentBlock=$(head -n 10 $File | grep -xa "\s*[/*#].*")
-    ! grep -q "$Asg" <(echo $CommentBlock) && Error "$Makefile comment block missing assignment: $Asg"
-    ! grep -q "$Student" <(echo $CommentBlock) && Error "$Makefile comment block missing CruzID: $Student"
+    StudentFirstName=$(echo $StudentName | cut -d " " -f 1)
+    ErrorFlag=false
+    ! grep -q "$Asg" <(echo $CommentBlock) && Error "$File comment block missing assignment: $Asg" && ErrorFlag=true
+    ! grep -q "$Student" <(echo $CommentBlock) && Error "$File comment block missing CruzID: $Student" && ErrorFlag=true
+    ! grep -q "$StudentFirstName" <(echo $CommentBlock) && Warn "$File comment block missing name: $StudentFirstName" && ErrorFlag=true
+    [[ $ErrorFlag == true ]] && echo "comment block: $Makefile" && echo "$CommentBlock"
   fi
 done
 
-# Check common errors in Makefile
+# Check common errors in Makefile contents
+Testing "$Makefile contents"
 for File in $Makefile; do
   if [[ -e $File ]]; then
     ! grep "submit" $Makefile | grep -q "lab4" && Error "$Makefile not configured to submit to lab4" && grep "submit" $Makefile
@@ -58,18 +72,35 @@ for File in $Makefile; do
   fi
 done
 
+# Check that Makefile actually works
+Testing "$Makefile behavior"
+ErrorFile=$(mktemp)
+make >/dev/null 2>$ErrorFile
+[[ $(wc -l $ErrorFile | cut -d " " -f 1) -ne 0 ]] && Error "$Makefile target 'make' outputted errors" && echo "output:" && cat $ErrorFile
+[[ ! -e GCD ]] && Error "$Makefile does not create executable: GCD" && echo "ls: $(ls -m)" && echo "Temp GCD made by $Exe" > GCD
+make clean
+for File in GCD GCD.class; do
+  [[ -e $File ]] && Error "$Makefile does not delete generated file: $File" && echo "ls: $(ls -m)" && rm -f $File
+done
+
 # Restore backed up files
+Testing "File modification/deletion"
 for File in $Backup/*; do
   FileName=$(basename $File)
   if [[ ! -e $FileName ]]; then
-    Error "running tests deleted file: $FileName"
+    Error "SUPER BAD: running tests deleted file: $FileName"
     cp $File $FileName
   elif ! diff -u $FileName $File; then
-    Error "running tests modified file: $FileName"
+    Error "SUPER BAD: running tests modified file: $FileName"
     cp $File $FileName
   fi
 done
 
 # Print results
 echo
-echo "$Exe finished with $ErrorCount errors and $WarnCount warnings"
+ErrorString="errors"
+WarnString="warnings"
+[[ $ErrorCount -eq 1 ]] && ErrorString="error"
+[[ $WarnCount -eq 1 ]] && WarnString="warning"
+echo "Finished with $ErrorCount $ErrorString and $WarnCount $WarnString"
+echo "STOP: $Exe"
