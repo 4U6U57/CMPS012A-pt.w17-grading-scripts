@@ -77,8 +77,14 @@ Testing "$Makefile behavior"
 ErrorFile=$(mktemp)
 make >/dev/null 2>$ErrorFile
 [[ $(wc -l $ErrorFile | cut -d " " -f 1) -ne 0 ]] && Error "$Makefile target 'make' outputted errors" && echo "output:" && cat $ErrorFile
-[[ ! -e GCD ]] && Error "$Makefile does not create executable: GCD" && echo "ls: $(ls -m)" && echo "Temp GCD made by $Exe" > GCD
-make clean
+if [[ ! -e GCD ]]; then
+  Error "$Makefile does not create executable: GCD"
+  echo "ls: $(ls -m)"
+  echo "Temp GCD made by $Exe" > GCD
+else
+  [[ ! -x GCD ]] && Error "Executable does not have +x permission: GCD"
+fi
+make clean >/dev/null
 for File in GCD GCD.class; do
   [[ -e $File ]] && Error "$Makefile does not delete generated file: $File" && echo "ls: $(ls -m)" && rm -f $File
 done
