@@ -24,12 +24,12 @@ Warn() {
 }
 Testing() {
   echo
-  echo "TESTING: $@"
+  echo "[TEST]: $@"
 }
 
 # Print start prompt
 Exe=$(basename ${BASH_SOURCE[0]})
-echo "START: $Exe"
+echo "[START]: $Exe"
 echo
 Warn "this script is provided 'as is' to test your code, please do not abuse it."
 echo "Also note that it may have been updated since you last downloaded it."
@@ -42,7 +42,9 @@ mkdir $Backup
 cp * $Backup
 
 # Initial cleanup
-[[ -e GCD ]] && Warn "Started script with file called GCD already in directory"
+for File in GCD GCD.class; do
+  [[ -e $File ]] && Warn "Started script with already compiled file, deleting: $File" && rm $File
+done
 
 # Check for correct filename
 Testing "filenames"
@@ -56,9 +58,10 @@ for File in $Makefile; do
     CommentBlock=$(head -n 10 $File | grep -xa "\s*[/*#].*")
     StudentFirstName=$(echo $StudentName | cut -d " " -f 1)
     ErrorFlag=false
-    ! grep -q "$Asg" <(echo $CommentBlock) && Error "$File comment block missing assignment: $Asg" && ErrorFlag=true
+    ! grep -q "$File" <(echo $CommentBlock) && Warn "$File comment block mising filename: $File" && ErrorFlag=true
+    ! grep -q "$StudentFirstName" <(echo $CommentBlock) && Warn "$File comment block missing your name: $StudentFirstName" && ErrorFlag=true
     ! grep -q "$Student" <(echo $CommentBlock) && Error "$File comment block missing CruzID: $Student" && ErrorFlag=true
-    ! grep -q "$StudentFirstName" <(echo $CommentBlock) && Warn "$File comment block missing name: $StudentFirstName" && ErrorFlag=true
+    ! grep -q "$Asg" <(echo $CommentBlock) && Error "$File comment block missing assignment name: $Asg" && ErrorFlag=true
     [[ $ErrorFlag == true ]] && echo "comment block: $Makefile" && echo "$CommentBlock"
   fi
 done
@@ -94,7 +97,10 @@ done
 Testing "File modification/deletion"
 for File in $Backup/*; do
   FileName=$(basename $File)
-  if [[ ! -e $FileName ]]; then
+  if [[ $FileName == "GCD" || $FileName == *.class ]]; then
+    echo "Restoring preexisting compiled file: $FileName"
+    cp $File $FileName
+  elif [[ ! -e $FileName ]]; then
     Error "SUPER BAD: running tests deleted file: $FileName"
     cp $File $FileName
   elif ! diff -u $FileName $File; then
@@ -110,4 +116,4 @@ WarnString="warnings"
 [[ $ErrorCount -eq 1 ]] && ErrorString="error"
 [[ $WarnCount -eq 1 ]] && WarnString="warning"
 echo "Finished with $ErrorCount $ErrorString and $WarnCount $WarnString"
-echo "STOP: $Exe"
+echo "[STOP]: $Exe"
