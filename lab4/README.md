@@ -29,16 +29,28 @@ After downloading the script, you can run it with the following command:
 ./lab4-check.sh
 ```
 
-The output should be a list of **WARN** and **ERROR** messages. Warnings are for
-things that should be fixed, but are not necessarily priority. Errors are
-sections that should definitely be fixed, and will result in lost points if not
-addressed.
+The output should be a list of **WARN** and **ERROR** messages. **WARN** are
+warnings, things that should be fixed, but might not necessarily result in
+deducted points. **ERROR** messages should definitely be fixed before
+submitting.
 
 Note that some errors may block others from appearing. An example of this would
 be not having a file called Makefile, which obviously means we can't check other
 things like whether or not the Makefile compiles. Fixing these errors will allow
 us to run more tests, and possibly expose more errors, resulting in a larger
 error count but overall better code.
+
+The program runs in best case with 1 warning, which is:
+
+```
+WARN: this script is provided 'as is' to test your code, please do not abuse it.
+Also note that it may have been updated since you last downloaded it.
+```
+
+This is mainly there to give an example to what a warning looks like, and also
+to serve as a reminder to update the script whenever you submit, as it may have
+been modified. To summarize, a perfectly running program will *Finish with 0 
+errors and 1 warning*.
 
 ## Removal
 

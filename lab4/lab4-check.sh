@@ -31,7 +31,8 @@ Testing() {
 Exe=$(basename ${BASH_SOURCE[0]})
 echo "START: $Exe"
 echo
-Warn "this script is provided 'as is' to test your code, please do not abuse it"
+Warn "this script is provided 'as is' to test your code, please do not abuse it."
+echo "Also note that it may have been updated since you last downloaded it."
 [[ "$Pwd" != "$Asg" ]] && echo && Warn "working directory not named same as assignment" && echo "pwd: $PwdDir"
 
 # Backup files just in case
