@@ -11,9 +11,13 @@ Click on the relevant link below for more information on an assignment.
 
 ## Lab Assignments
 
-> :warning: None available
+- lab1
+- lab2
+- lab4
+- [lab4](lab4)
 
 ## Programming Assignments
 
-- [pa1](pa1/README.md)
-- [pa3](pa3/README.md)
+- [pa1](pa1)
+- pa2
+- [pa3](pa3)
