@@ -6,11 +6,11 @@
 SRCDIR=https://raw.githubusercontent.com/legendddhgf/CMPS012A-pt.w17-grading-scripts/master/pa4
 # Get all necessary extras
 
-#for TYPE in in model-out; do
-#  for NUM in $(seq 1 5); do
-#    curl $SRCDIR/$TYPE$NUM.txt > $TYPE$NUM.txt
-#  done
-#done
+for TYPE in in model-out; do
+  for NUM in $(seq 1 5); do
+    curl $SRCDIR/$TYPE$NUM.txt > $TYPE$NUM.txt
+  done
+done
 
 
 # TODO: update to reflect the fact that you must use a Makefile
