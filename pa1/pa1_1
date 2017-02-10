@@ -1,0 +1,12 @@
+SRCDIR=https://raw.githubusercontent.com/legendddhgf/CMPS012A-pt.w17-grading-scripts/master/pa1
+for TYPE in in model-out; do
+    for NUM in $(seq 1 3); do
+        wget $SRCDIR/$TYPE$NUM.txt
+    done
+done
+wget $SRCDIR/pa1.sh
+chmod +x pa1.sh
+
+./pa1.sh
+
+rm -f in*.txt model-out*.txt pa1.sh
