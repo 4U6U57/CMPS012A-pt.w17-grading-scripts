@@ -12,21 +12,47 @@ for TYPE in in model-out; do
   done
 done
 
+curl $SRCDIR/RootsClient.java > RootsClient.java
 
-# TODO: update to reflect the fact that you must use a Makefile
-# Compile code
-javac Roots.java
+if [ ! -d .backup ]; then
+   mkdir .backup
+fi
+
+cp *.java Makefile .backup
+
+make
 
 # Run tests
 echo "If nothing between '=' signs, then test is passed::"
-for NUM in $(seq 1 5); do
+for NUM in $(seq 1 6); do
   echo "Test $NUM:"
   echo "=========="
-  java Roots < in$NUM.txt > out$NUM.txt
+  Roots < in$NUM.txt > out$NUM.txt
   diff -bBwu out$NUM.txt model-out$NUM.txt > diff$NUM.txt
   cat diff$NUM.txt
   echo "=========="
 done
 
-rm -f *.class
+make clean
 
+echo ""
+
+if [ -e Roots ] || [ -e *.class ]; then
+   echo "WARNING: Makefile didn't successfully clean all files"
+fi
+
+echo ""
+
+# Compile unit tests
+javac Roots.java > junkfile
+javac RootsClient.java > junkfile
+echo "Main-class: RootsClient" > Manifest
+jar cvfm RootsClient Manifest *.class > junkfile
+rm Manifest > junkfile
+chmod +x RootsClient > junkfile
+rm junkfile
+
+echo "Unit Tests:"
+RootsClient
+
+rm -f *.class RootsClient Roots
