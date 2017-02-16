@@ -7,7 +7,7 @@ SRCDIR=https://raw.githubusercontent.com/legendddhgf/CMPS012A-pt.w17-grading-scr
 # Get all necessary extras
 
 for TYPE in in model-out; do
-  for NUM in $(seq 1 5); do
+  for NUM in $(seq 1 6); do
     curl $SRCDIR/$TYPE$NUM.txt > $TYPE$NUM.txt
   done
 done
