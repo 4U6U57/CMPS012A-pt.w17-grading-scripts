@@ -7,9 +7,9 @@ submission.
 
 ## Warning
 
-This script is not ready for testing PA4 as it doesn't incorporate all
-intended performance components. It will however work in automating the five
-inputs provided by the professor in the examples/PA4 directory
+This script should confirm all components of your performance based grade but
+doesn't confirm every component of your grade for things like comment blocks
+(It'll definitely get you most of the points though)
 
 ## Installation
 
