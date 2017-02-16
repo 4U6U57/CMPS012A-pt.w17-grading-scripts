@@ -14,3 +14,12 @@ hs_err_pid*
 # don't commit the answers
 */example/*
 out*.txt
+
+# Don't commit student data
+**/student
+*.autotable
+*.csv
+*grade.txt
+
+# Don't know if we want moss up
+moss/

@@ -1,0 +1,5 @@
+echo ""
+echo ""
+echo "Contents of beginning of Lawn.java:"
+echo "=========="
+head -8 Lawn.java

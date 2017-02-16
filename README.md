@@ -1,23 +1,23 @@
-# cmps012a-pt.w17 grading
+# cmps012a-pt.w17 grading scripts
 
 [![Join the chat at https://gitter.im/cmps012a-pt-w17/Lobby]
 (https://badges.gitter.im/cmps012a-pt-w17/Lobby.svg)]
-(https://gitter.im/cmps012a-pt-w17/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+(https://gitter.im/cmps012a-pt-w17/Lobby)
 
-Scripts for grading the programs and labs of the CMPS 12A class under Patrick
-Tantalo for winter 2017.
+Scripts for grading the programs and labs of the cmps012a-pt.w17 class under
+Patrick Tantalo.
+
+## Assignments
 
 Click on the relevant link below for more information on an assignment.
 
-## Lab Assignments
+### Labs
 
-- lab1
-- lab2
-- lab4
 - [lab4](lab4)
 
-## Programming Assignments
+### Programs
 
 - [pa1](pa1)
 - pa2
 - [pa3](pa3)
+- [pa4](pa4)

@@ -61,7 +61,7 @@ for File in $Makefile; do
     ! grep -q "$File" <(echo $CommentBlock) && Warn "$File comment block mising filename: $File" && ErrorFlag=true
     ! grep -q "$StudentFirstName" <(echo $CommentBlock) && Warn "$File comment block missing your name: $StudentFirstName" && ErrorFlag=true
     ! grep -q "$Student" <(echo $CommentBlock) && Error "$File comment block missing CruzID: $Student" && ErrorFlag=true
-    ! grep -q "$Asg" <(echo $CommentBlock) && Error "$File comment block missing assignment name: $Asg" && ErrorFlag=true
+    ! grep -qi "$Asg" <(echo $CommentBlock) && Error "$File comment block missing assignment name: $Asg" && ErrorFlag=true
     [[ $ErrorFlag == true ]] && echo "comment block: $Makefile" && echo "$CommentBlock"
   fi
 done

@@ -1,0 +1,10 @@
+curl https://raw.githubusercontent.com/legendddhgf/CMPS012A-pt.w17-grading-scripts/master/pa2/in1.txt > in1.txt
+
+javac Guess.java
+echo "in1:"
+cat in1.txt
+echo "====="
+timeout 1 java Guess < in1.txt > out1.txt
+echo "out1:"
+cat out1.txt
+rm *.class

@@ -53,7 +53,7 @@ When the script runs `make clean` to check functionality, the Makefile would
 *delete the GCD.java source code*. In the context of lab4, this would not be
 terrible, as (1) the script would have backed up the file and would
 automatically retrieve it at the end of the testing run, and (2) this particular
-Java file should have been a duplicate of the submission for [asg3](../asg3),
+Java file should have been a duplicate of the submission for [pa3](../pa3),
 and thus could be retrieved from there.
 
 However, some errors are more serious. Take for instance, this modification to

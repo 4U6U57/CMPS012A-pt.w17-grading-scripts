@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Makes the README on the top level
+
+PwdDir=$(pwd)
+Pwd=$(basename $PwdDir)
+ClassDir=$(echo $PwdDir | cut -d "/" -f -5)
+Class=$(basename $ClassDir)
+BinDir="$ClassDir/bin"
+Readme="$BinDir/README.md"
+
+rm -f $Readme
+
+Print() {
+  echo $@ >> $Readme
+}
+
+Print "# $Class grading scripts"
+Print
+GitterClass=$(echo $Class | sed 's/\./-/g')
+Print "[![Join the chat at https://gitter.im/$GitterClass/Lobby]"
+Print "(https://badges.gitter.im/$GitterClass/Lobby.svg)]"
+Print "(https://gitter.im/$GitterClass/Lobby)"
+Print
+Print "Scripts for grading the programs and labs of the $Class class under"
+Print "Patrick Tantalo."
+Print
+Print "## Assignments"
+Print
+Print "Click on the relevant link below for more information on an assignment."
+Print
+Print "### Labs"
+Print
+for LabDir in $BinDir/lab*; do
+  Lab=$(basename $LabDir)
+  [[ -d $LabDir ]] && [[ -e $LabDir/README.md ]] && Print "- [$Lab]($Lab)" || \
+    Print "- *$Lab*"
+done
+Print
+Print "### Programs"
+Print
+for AsgDir in $BinDir/pa*; do
+  Asg=$(basename $AsgDir)
+  [[ -d $AsgDir ]] && [[ -e $AsgDir/README.md ]] && Print "- [$Asg]($Asg)" || \
+    Print "- *$Asg*"
+done
+

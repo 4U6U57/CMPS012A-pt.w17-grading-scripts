@@ -13,10 +13,11 @@ ClassDir=$(echo $PwdDir | cut -d "/" -f -5)
 Class=$(basename $ClassDir)
 Asg=""
 
-if [[ -e "$ClassDir/$Pwd" ]]; then
+echo $ClassDir/$1
+if [[ -d "$ClassDir/$Pwd" && "$Pwd" != "bin" ]]; then
   Asg=$Pwd
   echo "Asg $Asg taken from basename of current directory"
-elif [[ -e "$ClassDir/$1" ]]; then
+elif [[ -d "$ClassDir/$1" ]]; then
   Asg=$1
   echo "Asg $Asg taken from first argument of script"
   shift
