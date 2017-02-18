@@ -20,6 +20,7 @@ out*.txt
 *.autotable
 *.csv
 *grade.txt
+**/mailer
 
 # Don't know if we want moss up
 moss/
