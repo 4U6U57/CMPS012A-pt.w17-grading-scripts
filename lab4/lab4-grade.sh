@@ -39,11 +39,11 @@ Exe=$(basename ${BASH_SOURCE[0]})
 
 # Backup files just in case
 LsOrig=$(ls -m)
-touch $GradeFile
 Backup=".backup"
 rm -rf $Backup
 mkdir $Backup
 cp * $Backup
+touch $GradeFile
 
 # Initial cleanup
 for File in GCD GCD.class; do
@@ -51,11 +51,25 @@ for File in GCD GCD.class; do
 done
 
 # Check for correct filename
-for File in Makefile GCD.java; do
+Source="GCD.java"
+for File in Makefile $Source; do
   if [[ -e $File ]]; then
     Score 4 4 "$File submitted and named correctly"
   else
-    Score 0 0 "Could not find file: $File"
+    Score 0 4 "Could not find file: $File"
+    if [[ $File == $Source ]]; then
+      for AltSource in GDC.java gcd.java; do
+        [[ -e $AltSource ]] && Source=$AltSource
+      done
+      #echo "Could not find source $Source. Is there an alternative?"
+      #SourceIn="NONEXISTENT"
+      #while [[ ! -e $SourceIn && $SourceIn != "" ]]; do
+      #  ls -m
+      #  echo -n "Source file: "
+      #  read SourceIn
+      #done
+      #[[ $SourceIn != "" ]] && Source=$SourceIn
+    fi
   fi
 done
 
@@ -89,7 +103,7 @@ done
 # Check common errors in Makefile contents
 for File in Makefile; do
   if [[ -e $File ]]; then
-    SubmitTarget=$(grep "submit" Makefile)
+    SubmitTarget="$(grep "submit" Makefile)"
     if grep $Asg <(echo $SubmitTarget) >/dev/null; then
       Score 1 1 "Makefile submit target set to correct assignment"
     else
@@ -106,48 +120,56 @@ for File in Makefile; do
       Score 0 1 "Makefile fails on clean"
     fi
   else
-    Score 4 4 "$File errors ignored because it was missing"
+    Score 3 3 "$File errors ignored because it was missing"
   fi
 done
 
 # Check that Makefile actually works
-ErrorFile=$(mktemp)
-make 2>&1 | grep -i "error" > $ErrorFile
-[[ $(wc -l $ErrorFile | cut -d " " -f 1) -ne 0 ]] && Score 0 0 "Makefile target 'make' outputted errors" # && echo "output:" && cat $ErrorFile
-
-if [[ ! -e GCD ]]; then
-  Score 0 1 "Makefile does not create executable: GCD"
-elif [[ ! -x GCD ]]; then
-  Score 0 1 "Makefile does not give executable +x permission: GCD"
-else
-  Score 1 1 "Makefile correctly makes executable"
-fi
-make clean >/dev/null 2>&1
-for File in GCD GCD.class; do
-  if [[ -e $File ]]; then
-    Score 0 1 "Makefile does not delete generated file: $File"
+if [[ -e Makefile ]]; then
+  SourceExe=$(basename $Source .java)
+  MakeError=$(make 2>&1 >/dev/null)
+  if [[ ! -e $SourceExe ]]; then
+    Score 0 1 "Makefile does not create executable: $SourceExe"
+    echo "SAMPLE $SourceExe TO TEST MAKE CLEAN" > $SourceExe
+    echo "SAMPLE $SourceExe.class TO TEST MAKE CLEAN" > $SourceExe.class
+  elif [[ ! -x $SourceExe ]]; then
+    Score 0 1 "Makefile does not give executable +x permission: $SourceExe"
   else
-    Score 1 1 "Makefile correctly cleans file: $File"
+    Score 1 1 "Makefile correctly makes executable"
   fi
-done
+  CleanError=$(make clean 2>&1 >/dev/null)
+  for File in $SourceExe $SourceExe.class; do
+    if [[ -e $File ]]; then
+      Score 0 1 "Makefile does not delete generated file: $File"
+    else
+      Score 1 1 "Makefile correctly cleans file: $File"
+    fi
+  done
+else
+  Score 0 3 "Makefile could not be tested because it was missing"
+fi
 
 # Restore backed up files
+SafetyPoints=2
+SafetyError=""
 for File in $Backup/*; do
   FileName=$(basename $File)
-  if [[ $FileName == "GCD" || $FileName == *.class ]]; then
-    cp $File $FileName
-  elif [[ $FileName == "Makefile" ]] || [[ $FileName == "GCD.java" ]]; then
+  if [[ $FileName == "Makefile" ]] || [[ $FileName == $Source ]]; then
     if [[ ! -e $FileName ]]; then
-      Score -1 0 "Makefile modified source code: $FileName"
-      cp $File $FileName
+      echo $((SafetyPoints--)) >/dev/null
+      SafetyError+="deleted $FileName,"
     elif ! diff $FileName $File >/dev/null; then
-      Score -1 0 "Makefile modified source code: $FileName"
-      cp $File $FileName
+      echo $((SafetyPoints--)) >/dev/null
+      SafetyError+="modified $FileName,"
     fi
-  elif [[ ! -e $FileName ]] || ! diff $FileName $File >/dev/null; then
+  fi
+  if [[ ! -e $FileName ]] || ! diff $FileName $File >/dev/null; then
+    echo "Restoring $Student:$FileName"
     cp $File $FileName
   fi
 done
+[[ $SafetyError != "" ]] && SafetyError=" : $(echo "$SafetyError" | head -c -2)"
+Score $SafetyPoints 2 "Submission safety $SafetyError"
 
 # Generate gradefile header
 rm -f $GradeFile && touch $GradeFile
@@ -158,11 +180,14 @@ Print -e "STUDENT:\t$StudentName <$Student>"
 Print -e "SCORE:\t\t$StudentScore / $MaxScore ($((StudentScore * 100 / MaxScore))%)"
 Print
 Print "GRADE BREAKDOWN:"
+Print
 cat $ScoreFile >> $GradeFile && rm -f $ScoreFile
 Print
 Print "SUBMISSION INFO:"
 Print && Print "Your directory listing:" && Print "$LsOrig"
-[[ $CommentBlock != "" ]] && Print && Print "Your detected Makefile comment block:" && Print "$CommentBlock"
-[[ $(cat $ErrorFile) != "" ]] && Print && Print "'make' errors:" && cat $ErrorFile >> $GradeFile
-rm -f $ErrorFile
-! grep $Asg <(echo $SubmitTarget) && Print && Print "'submit' target:" && Print "$SubmitTarget"
+Print && [[ $CommentBlock != "" ]] && (Print "Your detected Makefile comment block:" && Print "$CommentBlock") || Print "No Makefile comment block detected."
+[[ $MakeError != "" ]] && Print && Print "'make' errors:" && Print "$MakeError"
+[[ $CleanError != "" ]] && Print && Print "'make clean' errors:" && Print "$CleanError"
+! grep $Asg <(echo $SubmitTarget) >/dev/null && Print && Print "'submit' target:" && Print "$SubmitTarget"
+Print
+Print "GRADING INFO:"
