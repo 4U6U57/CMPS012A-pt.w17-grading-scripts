@@ -114,13 +114,13 @@ for File in Makefile; do
     else
       Score 0 1 "Makefile contains reference to HelloWorld"
     fi
-    if ! grep "–" Makefile >/dev/null; then
-      Score 1 1 "Makefile does not fail on clean"
-    else
-      Score 0 1 "Makefile fails on clean"
-    fi
+    #if ! grep "–" Makefile >/dev/null; then
+    #  Score 1 1 "Makefile does not fail on clean"
+    #else
+    #  Score 0 1 "Makefile fails on clean"
+    #fi
   else
-    Score 3 3 "$File errors ignored because it was missing"
+    Score 2 2 "$File errors ignored because it was missing"
   fi
 done
 
@@ -138,15 +138,16 @@ if [[ -e Makefile ]]; then
     Score 1 1 "Makefile correctly makes executable"
   fi
   CleanError=$(make clean 2>&1 >/dev/null)
-  for File in $SourceExe $SourceExe.class; do
+  for File in $SourceExe $SourceExe.class Manifest; do
     if [[ -e $File ]]; then
       Score 0 1 "Makefile does not delete generated file: $File"
+      rm -f $File
     else
       Score 1 1 "Makefile correctly cleans file: $File"
     fi
   done
 else
-  Score 0 3 "Makefile could not be tested because it was missing"
+  Score 0 4 "Makefile could not be tested because it was missing"
 fi
 
 # Restore backed up files
@@ -164,9 +165,11 @@ for File in $Backup/*; do
     fi
   fi
   if [[ ! -e $FileName ]] || ! diff $FileName $File >/dev/null; then
-    echo "Restoring $Student:$FileName"
     cp $File $FileName
   fi
+done
+for File in *; do
+  [[ ! -e $Backup/$File ]] && rm -f $File
 done
 [[ $SafetyError != "" ]] && SafetyError=" : $(echo "$SafetyError" | head -c -2)"
 Score $SafetyPoints 2 "Submission safety $SafetyError"
@@ -188,6 +191,6 @@ Print && Print "Your directory listing:" && Print "$LsOrig"
 Print && [[ $CommentBlock != "" ]] && (Print "Your detected Makefile comment block:" && Print "$CommentBlock") || Print "No Makefile comment block detected."
 [[ $MakeError != "" ]] && Print && Print "'make' errors:" && Print "$MakeError"
 [[ $CleanError != "" ]] && Print && Print "'make clean' errors:" && Print "$CleanError"
-! grep $Asg <(echo $SubmitTarget) >/dev/null && Print && Print "'submit' target:" && Print "$SubmitTarget"
+[[ $SubmitTarget != "" ]] && (! grep $Asg <(echo $SubmitTarget) >/dev/null && Print && Print "'submit' target:" && Print "$SubmitTarget") || Print "No submit target found."
 Print
 Print "GRADING INFO:"
