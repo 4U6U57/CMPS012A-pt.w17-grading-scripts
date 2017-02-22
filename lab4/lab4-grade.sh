@@ -1,3 +1,8 @@
+#!/./bin/./.././bin/./bash
+
+# lab4-grade.sh
+# Grading script for cmps012b-pt.w17/lab4
+# August Valera <avalera>
 
 # Set up global variables
 Asg="lab4"

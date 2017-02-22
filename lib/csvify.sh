@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/./bin/./.././bin/./bash
 
 # csvify.sh
 # generates export csv file for a specific assignment to import to eCommons

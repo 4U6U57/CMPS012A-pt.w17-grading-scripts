@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/./bin/./.././bin/./bash
 
 # forall.sh
 # Runs input $CMD forall submissions in $ASG directory
