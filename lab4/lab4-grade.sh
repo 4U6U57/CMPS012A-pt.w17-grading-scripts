@@ -8,13 +8,14 @@ Class=$(basename $ClassDir)
 Student="$USER"
 [[ $USER == "avalera" ]] && Student=$Pwd
 StudentName=$(getent passwd $Student | cut -d ":" -f 5)
-[[ $StudenName == "" ]] && StudentName="???"
+[[ $StudentName == "" ]] && StudentName="???"
 BinDir="$ClassDir/bin"
 AsgBinDir="$BinDir/$Asg"
 
 # Set up testing variables and functions
 GradeDir="$AsgBinDir/student"
 [[ ! -e $GradeDir ]] && mkdir $GradeDir
+GradeFile="$Pwd/GRADE.txt"
 GradeFile="$GradeDir/$Student.GRADE.txt"
 rm -f $GradeFile
 
@@ -43,7 +44,6 @@ Backup=".backup"
 rm -rf $Backup
 mkdir $Backup
 cp * $Backup
-touch $GradeFile
 
 # Initial cleanup
 for File in GCD GCD.class; do
@@ -191,6 +191,8 @@ Print && Print "Your directory listing:" && Print "$LsOrig"
 Print && [[ $CommentBlock != "" ]] && (Print "Your detected Makefile comment block:" && Print "$CommentBlock") || Print "No Makefile comment block detected."
 [[ $MakeError != "" ]] && Print && Print "'make' errors:" && Print "$MakeError"
 [[ $CleanError != "" ]] && Print && Print "'make clean' errors:" && Print "$CleanError"
-[[ $SubmitTarget != "" ]] && (! grep $Asg <(echo $SubmitTarget) >/dev/null && Print && Print "'submit' target:" && Print "$SubmitTarget") || Print "No submit target found."
+([[ $SubmitTarget == "" ]] && Print && Print "No submit target found") || (! grep $Asg <(echo $SubmitTarget) >/dev/null && Print && Print "'submit' target:" && Print "$SubmitTarget")
 Print
 Print "GRADING INFO:"
+Print
+Print "$(echo "For questions or concerns about your grade, please send a REPLY to this email from your UCSC account. If you believe your assignment has been graded in error, please include the word 'REVIEW' in all caps in your message body, with information on what you think the error was. Note that doing so allows us to review your entire assignment, which, while unlikely, may result in an overall lower score. Aside from the review, you may ask any questions about your submission without fear of penalty. The assignment rubric will be made available on Piazza shortly, and was loosely based off of the check script provided prior to the assignment deadline." | fmt)"
