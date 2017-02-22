@@ -56,19 +56,19 @@ for File in Makefile $Source; do
   if [[ -e $File ]]; then
     Score 4 4 "$File submitted and named correctly"
   else
-    Score 0 4 "Could not find file: $File"
     if [[ $File == $Source ]]; then
       for AltSource in GDC.java gcd.java; do
         [[ -e $AltSource ]] && Source=$AltSource
       done
-      #echo "Could not find source $Source. Is there an alternative?"
-      #SourceIn="NONEXISTENT"
-      #while [[ ! -e $SourceIn && $SourceIn != "" ]]; do
-      #  ls -m
-      #  echo -n "Source file: "
-      #  read SourceIn
-      #done
-      #[[ $SourceIn != "" ]] && Source=$SourceIn
+      HelloWorldUrl="https://classes.soe.ucsc.edu/cmps012a/Winter17/Examples/HelloName.java"
+      if [[ $File == $Source ]]; then
+        Score 0 4 "Could not find file: $File"
+        curl -s $HelloWorldUrl > $Source
+      else
+        Score 2 4 "Incorrectly named file: $Source -> GCD.java"
+      fi
+    elif [[ $File == Makefile ]]; then
+      Score 0 4 "Could not find file: $File"
     fi
   fi
 done
