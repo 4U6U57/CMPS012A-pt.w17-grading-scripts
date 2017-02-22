@@ -130,8 +130,10 @@ else
     StudentDir="$AsgDir/$Student"
     StudentGrade="$StudentDir/$GradeFile"
     BackupGrade="$MailDir/$Student.$GradeFile"
+    sed -i 's/\r//g' $StudentGrade
+    StudentEmail="$Student@ucsc.edu"
     echo "Sending mail to $Student"
-    mailx -s '[$Class] $Asg grade for $Student' <$StudentGrade
+    mailx -s "[$Class] $Asg grade for $Student" $StudentEmail <$StudentGrade
     cp $StudentGrade $BackupGrade
     sleep $MailWait
   done
