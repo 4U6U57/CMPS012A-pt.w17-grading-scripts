@@ -20,8 +20,8 @@ AsgBinDir="$BinDir/$Asg"
 # Set up testing variables and functions
 GradeDir="$AsgBinDir/student"
 [[ ! -e $GradeDir ]] && mkdir $GradeDir
-GradeFile="$Pwd/GRADE.txt"
-GradeFile="$GradeDir/$Student.GRADE.txt"
+GradeFile="$PwdDir/GRADE.txt"
+#GradeFile="$GradeDir/$Student.GRADE.txt"
 rm -f $GradeFile
 
 Print() {
@@ -200,4 +200,4 @@ Print && [[ $CommentBlock != "" ]] && (Print "Your detected Makefile comment blo
 Print
 Print "GRADING INFO:"
 Print
-Print "$(echo "For questions or concerns about your grade, please send a REPLY to this email from your UCSC account. If you believe your assignment has been graded in error, please include the word 'REVIEW' in all caps in your message body, with information on what you think the error was. Note that doing so allows us to review your entire assignment, which, while unlikely, may result in an overall lower score. Aside from the review, you may ask any questions about your submission without fear of penalty. The assignment rubric will be made available on Piazza shortly, and was loosely based off of the check script provided prior to the assignment deadline." | fmt)"
+Print "$(echo "For questions or concerns about your grade, please send a REPLY to this email from your UCSC account. If you believe your assignment has been graded in error, please include the word 'REVIEW' in all caps in your message body, with information on what you think the error was. Note that doing so allows us to review your entire assignment, which, while unlikely, may result in an overall lower score. Aside from the review, you may ask any questions about your submission without fear of penalty. The assignment rubric can be found on Piazza (https://piazza.com/class/ixpl5nsw9fnta?cid=315), and was loosely based off of the check script provided prior to the assignment deadline." | fmt)"
