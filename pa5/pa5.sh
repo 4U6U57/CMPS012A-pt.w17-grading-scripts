@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 # cmps012a-pt.w17 grading
 # usage: pa3.sh
 # (run within your pa3 directory to test your code)
@@ -16,16 +16,16 @@ cp *.java Makefile .backup
 
 make
 
-TEST1 =
-TEST2 = x
-TEST3 = -v
-TEST4 = -v x
-TEST5 = 5
-TEST6 = -v 5
-TEST7 = 8
-TEST8 = -v 8
-TEST9 = 11
-TEST10 = -v 11
+TEST1=""
+TEST2="x"
+TEST3="-v"
+TEST4="-v x"
+TEST5="5"
+TEST6="-v 5"
+TEST7="8"
+TEST8="-v 8"
+TEST9="11"
+TEST10="-v 11"
 
 # Run tests
 echo "If nothing between '=' signs, then test is passed::"
@@ -121,6 +121,7 @@ chmod +x QueensUnitTests > junkfile
 rm junkfile
 
 echo "Unit Tests:"
-QueensUnitTests
+#QueensUnitTests
+echo "NOT YET"
 
 rm -f *.class Queens QueensUnitTests
