@@ -6,8 +6,7 @@
 SRCDIR=https://raw.githubusercontent.com/legendddhgf/CMPS012A-pt.w17-grading-scripts/master/pa5
 # Get all necessary extras
 
-curl $SRCDIR/permutationTest.java > permutationTest.java
-curl $SRCDIR/isSolutionTest.java > isSolutionTest.java
+curl $SRCDIR/QueensUnitTests.java > QueensUnitTests.java
 
 if [ ! -d .backup ]; then
    mkdir .backup
@@ -114,20 +113,14 @@ echo ""
 
 # Compile unit tests
 javac Queens.java > junkfile
-javac permutationTest.java > junkfile
-javac isSolutionTest.java > junkfile
-echo "Main-class: PermutationTest" > Manifest
-jar cvfm PermutationTest Manifest *.class > junkfile
+javac QueensUnitTests.java > junkfile
+echo "Main-class: QueensUnitTests" > Manifest
+jar cvfm QueensUnitTests Manifest *.class > junkfile
 rm Manifest > junkfile
-chmod +x PermutationTest > junkfile
-echo "Main-class: IsSolutionTest" > Manifest
-jar cvfm IsSolutionTest Manifest *.class > junkfile
-rm Manifest > junkfile
-chmod +x IsSolutionTest > junkfile
+chmod +x QueensUnitTests > junkfile
 rm junkfile
 
 echo "Unit Tests:"
-PermutationTest
-IsSolutionTest
+QueensUnitTests
 
-rm -f *.class Queens IsSolutionTest PermutationTest
+rm -f *.class Queens QueensUnitTests
