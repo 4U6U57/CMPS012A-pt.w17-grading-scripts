@@ -36,28 +36,28 @@ TEST10="-v 11"
 echo "If nothing between '=' signs, then test is passed::"
 echo "Test 1:"
 echo "=========="
-timeout 0.5 Queens $TEST1 > out1.txt
+timeout 0.5 Queens $TEST1 >& out1.txt
 diff -bBwu out1.txt model-out1.txt > diff1.txt
 cat diff1.txt
 echo "=========="
 
 echo "Test 2:"
 echo "=========="
-timeout 0.5 Queens $TEST2 > out2.txt
+timeout 0.5 Queens $TEST2 >& out2.txt
 diff -bBwu out2.txt model-out2.txt > diff2.txt
 cat diff2.txt
 echo "=========="
 
 echo "Test 3:"
 echo "=========="
-timeout 0.5 Queens $TEST3 > out3.txt
+timeout 0.5 Queens $TEST3 >& out3.txt
 diff -bBwu out3.txt model-out3.txt > diff3.txt
 cat diff3.txt
 echo "=========="
 
 echo "Test 4:"
 echo "=========="
-timeout 0.5 Queens $TEST4 > out4.txt
+timeout 0.5 Queens $TEST4 >& out4.txt
 diff -bBwu out4.txt model-out4.txt > diff4.txt
 cat diff4.txt
 echo "=========="
