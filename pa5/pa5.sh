@@ -100,7 +100,6 @@ cat diff10.txt
 echo "=========="
 
 
-
 make clean
 
 echo ""
@@ -121,7 +120,6 @@ chmod +x QueensUnitTests > junkfile
 rm junkfile
 
 echo "Unit Tests:"
-#QueensUnitTests
-echo "NOT YET"
+QueensUnitTests
 
 rm -f *.class Queens QueensUnitTests
