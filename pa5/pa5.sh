@@ -1,7 +1,7 @@
 #!/bin/bash
 # cmps012a-pt.w17 grading
-# usage: pa3.sh
-# (run within your pa3 directory to test your code)
+# usage: pa5.sh
+# (run within your pa5 directory to test your code)
 
 SRCDIR=https://raw.githubusercontent.com/legendddhgf/CMPS012A-pt.w17-grading-scripts/master/pa5
 # Get all necessary extras
