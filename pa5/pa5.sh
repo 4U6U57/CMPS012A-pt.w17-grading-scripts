@@ -8,6 +8,11 @@ SRCDIR=https://raw.githubusercontent.com/legendddhgf/CMPS012A-pt.w17-grading-scr
 
 curl $SRCDIR/QueensUnitTests.java > QueensUnitTests.java
 
+for num in 1 2 3 4 5 6 7 8 9 10
+do
+   curl $SRCDIR/model-out$num.txt > model-out$num.txt
+done
+
 if [ ! -d .backup ]; then
    mkdir .backup
 fi
