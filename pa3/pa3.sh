@@ -20,7 +20,7 @@ echo "If nothing between '=' signs, then test is passed::"
 for NUM in $(seq 1 6); do
   echo "Test $NUM:"
   echo "=========="
-  java GCD < in$NUM.txt > out$NUM.txt
+  timeout 1 java GCD < in$NUM.txt > out$NUM.txt
   diff -bBwu out$NUM.txt model-out$NUM.txt > diff$NUM.txt
   cat diff$NUM.txt
   echo "=========="
