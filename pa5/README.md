@@ -44,7 +44,5 @@ between any of the pairs of equal signs or if any unit tests fail.
 
 ## Removal
 
-The test script should self clean, removing the test input and model-out
-files that we have downloaded. You can delete the test and all other downloaded
-files with:
-`rm -f pa5.sh diff*.txt out*.txt model-out*.txt QueensUnitTests.java`
+You can delete the test and all other downloaded/generated files with:
+`rm -f pa5.sh diff*.txt out*.txt model-out*.txt QueensUnitTests.java`.
