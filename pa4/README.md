@@ -38,6 +38,5 @@ between any of the pairs of equal signs
 
 ## Removal
 
-The test script should be self cleaning, removing the test input and model-out
-files that we have downloaded. You can delete the test script safely with the
-usual `rm pa4.sh`.
+You can delete the test and all other downloaded/generated files with:
+`rm -f pa4.sh diff*.txt out*.txt model-out*.txt`.
