@@ -6,13 +6,12 @@
 SRCDIR=https://raw.githubusercontent.com/legendddhgf/CMPS012A-pt.w17-grading-scripts/master/pa6
 # Get all necessary extras
 
-#curl $SRCDIR/ComplexExceptionTest.java > ComplexExceptionTest.java
+curl $SRCDIR/ComplexExceptionTest.java > ComplexExceptionTest.java
 
 for num in 1 2 3 4
 do
-echo ""
-#   curl $SRCDIR/in$num.txt > in$num.txt
-#   curl $SRCDIR/model-out$num.txt > model-out$num.txt
+curl $SRCDIR/in$num.txt > in$num.txt
+curl $SRCDIR/model-out$num.txt > model-out$num.txt
 done
 
 if [ ! -d .backup ]; then
