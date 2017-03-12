@@ -22,6 +22,8 @@ cp *.java Makefile .backup
 
 make
 
+echo ""
+
 # Run tests
 echo "If nothing between '=' signs, then test is passed::"
 for num in 1 2 3 4
@@ -33,6 +35,8 @@ do
    cat diff$num.txt
    echo "=========="
 done
+
+echo ""
 
 make spotless
 
@@ -55,5 +59,6 @@ rm junkfile
 
 echo "Unit Tests:"
 timeout 0.5 ComplexExceptionTest
+echo ""
 
 rm -f *.class ComplexTest ComplexExceptionTest
