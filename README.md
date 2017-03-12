@@ -22,3 +22,4 @@ Click on the relevant link below for more information on an assignment.
 - [pa3](pa3)
 - [pa4](pa4)
 - [pa5](pa5)
+- [pa6](pa6)
