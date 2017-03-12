@@ -10,8 +10,8 @@ curl $SRCDIR/ComplexExceptionTest.java > ComplexExceptionTest.java
 
 for num in 1 2 3 4
 do
-curl $SRCDIR/in$num.txt > in$num.txt
-curl $SRCDIR/model-out$num.txt > model-out$num.txt
+  curl $SRCDIR/in$num.txt > in$num.txt
+  curl $SRCDIR/model-out$num.txt > model-out$num.txt
 done
 
 if [ ! -d .backup ]; then
