@@ -14,6 +14,7 @@ Click on the relevant link below for more information on an assignment.
 ### Labs
 
 - [lab4](lab4)
+- [lab6](lab6)
 
 ### Programs
 
