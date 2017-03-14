@@ -1,8 +1,17 @@
 #!/./bin/./.././bin/./bash
 
-# lab6-solution.sh
-# Solution script for cmps012b-pt.w17/lab4
-# August Valera <avalera>
+##
+# @file lab6-solution.sh
+# @brief Prints out diff of solution for lab6
+# @author August Valera (avalera)
+# @version cmps012b-pt.w17/lab6
+# @date 2017-03-13
+
+# Defines the range of inputs to test, defaults to 0-6 for both
+SentenceMin=0
+SentenceMax=6
+ModifierMin=0
+ModifierMax=6
 
 # Set up global variables
 Asg="lab4"
@@ -10,11 +19,6 @@ PwdDir=$(pwd)
 Pwd=$(basename $PwdDir)
 Student="$USER"
 StudentName=$(getent passwd $Student | cut -d ":" -f 5)
-
-SentenceMin=0
-SentenceMax=6
-ModifierMin=0
-ModifierMax=6
 
 LetterEmulate() { # (filename)
   Input="$(cat $1 | sed 's/\r//g')"
