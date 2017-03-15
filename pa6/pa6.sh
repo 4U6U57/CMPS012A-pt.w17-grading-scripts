@@ -3,10 +3,17 @@
 # usage: pa6.sh
 # (run within your pa6 directory to test your code)
 
+if [ ! -d .backup ]; then
+   mkdir .backup
+fi
+
+cp *.java Makefile .backup
+
 SRCDIR=https://raw.githubusercontent.com/legendddhgf/CMPS012A-pt.w17-grading-scripts/master/pa6
 # Get all necessary extras
 
 curl $SRCDIR/ComplexExceptionTest.java > ComplexExceptionTest.java
+curl $SRCDIR/ComplexTest.java > ComplexTest.java
 
 for num in 1 2 3 4
 do
@@ -14,12 +21,6 @@ curl $SRCDIR/in$num.txt > in$num.txt
 curl $SRCDIR/model-out$num.txt > model-out$num.txt
 curl $SRCDIR/model-out${num}_1.txt > model-out${num}_1.txt
 done
-
-if [ ! -d .backup ]; then
-   mkdir .backup
-fi
-
-cp *.java Makefile .backup
 
 make
 
