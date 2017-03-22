@@ -101,6 +101,39 @@ if [[ -z ${StudentTable["$Key"]} ]]; then
   StudentTable["$Key"]="$Files"
 fi
 
+Errors=("(0|[6-9]|[0-9][0-9]+)\s+[0-9]" "2\s+4" "3\s+3" "4\s+[0-9]" "5\s+2" "5\s+(0|[5-9]|[0-9][0-9]+)")
+for I in $(seq 0 $((${#Errors[@]} - 1))); do
+  Key="Error$I"
+  if [[ -z ${StudentTable["$Key"]} ]]; then
+    case $I in
+      (0):
+        Desc="(is a valid -> is not a valid) sentence code"
+        ;;
+      (1):
+        Desc="weather here has been (hot -> cold)"
+        ;;
+      (2)
+        Desc="plan to come home for a visit (last -> next)"
+        ;;
+      (3)
+        Desc="buy another (books -> book)"
+        ;;
+      (4)
+        Desc="the stuff you sent ( -> .)"
+        ;;
+      (5)
+        Desc="Thanks for the ERROR ( -> you sent.)"
+        ;;
+    esac
+    clear
+    cat ${StudentTable["ErrorsFile"]}
+    PS3="Did they find error ${Errors[$I]} $Desc?: "
+    select Found in true false; do
+      StudentTable["$Key"]=$Found
+      break
+    done
+  fi
+done
 WriteTable
 
 # Restore backed up files
