@@ -27,7 +27,7 @@ echo "If nothing between '=' signs, then test is passed::"
 for NUM in $(seq 1 6); do
   echo "Test $NUM:"
   echo "=========="
-  Roots < in$NUM.txt > out$NUM.txt
+  timeout 0.5 Roots < in$NUM.txt > out$NUM.txt
   diff -bBwu out$NUM.txt model-out$NUM.txt > diff$NUM.txt
   cat diff$NUM.txt
   echo "=========="
