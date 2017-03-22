@@ -76,6 +76,19 @@ cp * $Backup
 
 ReadTable
 
+Key="ErrorsFile"
+ErrorsFileDefault="errors"
+if [[ -z ${StudentTable["$Key"]} ]] || [[ ! -e ${StudentTable["$Key"]} ]]; then
+  if [[ -e "$ErrorsFileDefault" ]]; then
+    StudentTable["$Key"]="$ErrorsFileDefault"
+  else
+    select File in *; do
+      StudentTable["$Key"]="$File"
+      break
+    done
+  fi
+fi
+
 WriteTable
 
 # Restore backed up files
