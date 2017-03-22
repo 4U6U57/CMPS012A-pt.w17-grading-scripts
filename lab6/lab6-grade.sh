@@ -50,7 +50,7 @@ ReadTable() {
   ClearTable
   [[ ! -e $TableFile ]] && touch $TableFile
   while read Line; do
-    StudentTable["$(echo $Line | cut -d ':' -f 1)"]="$(echo $Line | cut -d ':' -f 2-)"
+    StudentTable["$(echo $Line | cut -d ':' -f 1)"]="$(echo $Line | cut -d ':' -f 2- | tail -c +2)"
   done < $TableFile
 }
 WriteTable() {
@@ -68,25 +68,37 @@ ClearTable() {
 }
 
 # Backup files just in case
-LsOrig=$(ls -m)
 Backup=".backup"
 rm -rf $Backup
 mkdir $Backup
 cp * $Backup
 
 ReadTable
-
+StudentTable["ls"]="$(ls)"
 Key="ErrorsFile"
 ErrorsFileDefault="errors"
-if [[ -z ${StudentTable["$Key"]} ]] || [[ ! -e ${StudentTable["$Key"]} ]]; then
+if [[ -z "${StudentTable["$Key"]}" ]] || [[ ! -e ${StudentTable["$Key"]} ]]; then
   if [[ -e "$ErrorsFileDefault" ]]; then
     StudentTable["$Key"]="$ErrorsFileDefault"
+  elif [[ -e "errors.txt" ]]; then
+    StudentTable["$Key"]="errors.txt"
   else
+    PS3="Select $Key for $Student: "
     select File in *; do
       StudentTable["$Key"]="$File"
       break
     done
   fi
+fi
+
+Key="DatFiles"
+if [[ -z ${StudentTable["$Key"]} ]]; then
+  Files="$(ls | grep ".dat" | sed "s/\n//g")"
+  if [[ -z "$Files" ]]; then
+    echo "No .dat found for $Student"
+    Files="$(ls | sed "s/${StudentTable["ErrorsFile"]}//g;s/\n//g")"
+  fi
+  StudentTable["$Key"]="$Files"
 fi
 
 WriteTable
