@@ -21,7 +21,7 @@ assignment shall not exceed the usual maximum of 20 points.
     - (2 points) for describing the error in your `errors` file
     - (1 point) for having at least one test case in your `.dat` files
 - Naming of `errors` file
-    - (2 points + 2 bonus) for naming it exactly as asked (`errors`)
+    - (2 points + 1 bonus) for naming it exactly as asked (`errors`)
     - (2 points) for naming it acceptably (`errors.txt`)
     - (1 point) for it not being named right, but existing
 - Comment block for `errors` file
