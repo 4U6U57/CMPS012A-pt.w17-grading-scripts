@@ -16,7 +16,6 @@ StudentName=$(getent passwd $Student | cut -d ":" -f 5)
 [[ $StudentName == "" ]] && StudentName="???"
 BinDir="$ClassDir/bin"
 AsgBinDir="$BinDir/$Asg"
-PiazzaUrl="http://piazza.com"
 
 # Set up testing variables and functions
 GradeDir="$AsgBinDir/student"
@@ -75,6 +74,8 @@ cp * $Backup
 
 ReadTable
 StudentTable["ls"]="$(ls)"
+
+# Get ErrorsFile
 Key="ErrorsFile"
 ErrorsFileDefault="errors"
 if [[ -z "${StudentTable["$Key"]}" ]] || [[ ! -e ${StudentTable["$Key"]} ]]; then
@@ -92,13 +93,109 @@ if [[ -z "${StudentTable["$Key"]}" ]] || [[ ! -e ${StudentTable["$Key"]} ]]; the
 fi
 
 Key="DatFiles"
-if [[ -z ${StudentTable["$Key"]} ]]; then
+if [[ -z ${StudentTable["$Key"]} ]] || true; then
   Files="$(ls | grep ".dat" | sed "s/\n//g")"
   if [[ -z "$Files" ]]; then
     echo "No .dat found for $Student"
     Files="$(ls | sed "s/${StudentTable["ErrorsFile"]}//g;s/\n//g")"
   fi
   StudentTable["$Key"]="$Files"
+fi
+
+Errors=("\-?(0|[6-9]|[1-9][0-9]+)\s+\-?[0-9]" "2\s+4" "3\s+3" "4\s+\-?[0-9]+" "5\s+2" "5\s+\-?(0|[5-9]|[1-9][0-9]+)")
+for I in $(seq 0 $((${#Errors[@]} - 1))); do
+  Key="Error$I"
+  if [[ -z ${StudentTable["$Key"]} ]]; then
+    case $I in
+      (0):
+        Desc="(is a valid -> is not a valid) sentence code"
+        ;;
+      (1):
+        Desc="weather here has been (hot -> cold)"
+        ;;
+      (2)
+        Desc="plan to come home for a visit (last -> next)"
+        ;;
+      (3)
+        Desc="buy another (books -> book)"
+        ;;
+      (4)
+        Desc="the stuff you sent ( -> .)"
+        ;;
+      (5)
+        Desc="Thanks for the ERROR ( -> you sent.)"
+        ;;
+    esac
+    clear
+    cat ${StudentTable["ErrorsFile"]}
+    PS3="Did they find error ${Errors[$I]} $Desc?: "
+    echo; echo
+    select Found in true false; do
+      StudentTable["$Key"]=$Found
+      break
+    done
+  fi
+  Key="Test$I"
+  if [[ -z "${StudentTable["$Key"]}" ]] || true; then
+    if [[ ! -z "${StudentTable["DatFiles"]}" ]] && grep -qP "${Errors[$I]}" ${StudentTable["DatFiles"]}; then
+      StudentTable["$Key"]=true
+    else
+      StudentTable["$Key"]=false
+    fi
+  fi
+done
+
+for I in $(seq 0 $((${#Errors[@]} - 1))); do
+  case $I in
+    (0):
+      Desc="(is a valid -> is not a valid) sentence code"
+      ;;
+    (1):
+      Desc="weather here has been (hot -> cold)"
+      ;;
+    (2)
+      Desc="plan to come home for a visit (last -> next)"
+      ;;
+    (3)
+      Desc="buy another (books -> book)"
+      ;;
+    (4)
+      Desc="the stuff you sent ( -> .)"
+      ;;
+    (5)
+      Desc="Thanks for the ERROR ( -> you sent.)"
+      ;;
+  esac
+  if ${StudentTable["Error$I"]}; then
+    Score 2 2 "Found error ${Errors[$I]} ($Desc)"
+  else
+    Score 0 2 "Did not find error ${Errors[$I]} ($Desc)"
+  fi
+  if ${StudentTable["Test$I"]}; then
+    Score 1 1 "Tested for error ${Errors[$I]} ($Desc)"
+  else
+    Score 0 1 "Did not test for error ${Errors[$I]} ($Desc)"
+  fi
+done
+
+Key="ErrorsFile"
+if [[ ! -z $StudentTable["$Key"] ]]; then
+  if [[ ${StudentTable["$Key"]} == "errors" ]]; then
+    Score 3 2 "errors file name correct: ${StudentTable["$Key"]}"
+  elif [[ ${StudentTable["$Key"]} == "errors.txt" ]]; then
+    Score 2 2 "errors file name acceptable: ${StudentTable["$Key"]} -> errors"
+  else
+    Score 1 2 "errors file name incorrect: ${StudentTable["$Key"]} -> errors"
+  fi
+fi
+
+# Comment block bonus points
+if [[ -e ${StudentTable["ErrorsFile"]} ]]; then
+  StudentFirstName=$(echo $StudentName | cut -d " " -f 1)
+  grep "${StudentTable["ErrorsFile"]}" ${StudentTable["ErrorsFile"]} >/dev/null && Score 1 0 "Comment block contained filename: ${StudentTable["ErrorsFile"]}"
+  grep "$StudentFirstName" ${StudentTable["ErrorsFile"]} >/dev/null && Score 1 0 "Comment block contained your name: $StudentFirstName"
+  grep -i "$Student" ${StudentTable["ErrorsFile"]} >/dev/null && Score 1 0 "Comment block contained CruzID"
+  grep -i "lab\s*6" ${StudentTable["ErrorsFile"]} >/dev/null && Score 1 0 "Comment block contained assignment name: $Asg"
 fi
 
 WriteTable
@@ -115,6 +212,8 @@ for File in *; do
 done
 
 # Generate gradefile header
+[[ $StudentScore -gt $MaxScore ]] && StudentScore=$MaxScore
+grep "$Student" $AsgBinDir/HALF.md && StudentScore=$((StudentScore / 2))
 [[ $MaxScore -eq 0 ]] && StudentPercent=0 || StudentPercent=$((StudentScore * 100 / MaxScore))
 rm -f $GradeFile && touch $GradeFile
 Print -e "CLASS:\t\t$Class"
@@ -128,13 +227,11 @@ Print
 cat $ScoreFile >> $GradeFile && rm -f $ScoreFile
 Print
 Print "SUBMISSION INFO:"
-Print && Print "Your directory listing:" && Print "$LsOrig"
-Print && [[ $CommentBlock != "" ]] && (Print "Your detected Makefile comment block:" && Print "$CommentBlock") || Print "No Makefile comment block detected."
-[[ $MakeError != "" ]] && Print && Print "'make' errors:" && Print "$MakeError"
-[[ $CleanError != "" ]] && Print && Print "'make clean' errors:" && Print "$CleanError"
-([[ $SubmitTarget == "" ]] && Print && Print "No submit target found") || (! grep $Asg <(echo $SubmitTarget) >/dev/null && Print && Print "'submit' target:" && Print "$SubmitTarget")
+Print && Print "Your directory listing:" && Print "${StudentTable["ls"]}"
+grep "$Student" $AsgBinDir/HALF.md && Print && Print "Your submission was marked late by the instructor. As a result, your score has been halved."
 Print
 Print "GRADING INFO:"
 Print
-Print "$(echo "For questions or concerns about your grade, please send a REPLY to this email from your UCSC account. If you believe your assignment has been graded in error, please include the word 'REVIEW' in all caps in your message body, with information on what you think the error was. Note that doing so allows us to review your entire assignment, which, while unlikely, may result in an overall lower score. Aside from the review, you may ask any questions about your submission without fear of penalty. The assignment rubric can be found on Piazza ($PiazzaUrl), and was loosely based off of the check script provided prior to the assignment deadline." | fmt)"
+RubricUrl="https://github.com/legendddhgf/CMPS012A-pt.w17-grading-scripts/blob/master/lab6/RUBRIC.md"
+Print "$(echo "For questions or concerns about your grade, please send a REPLY to this email from your UCSC account. If you believe your assignment has been graded in error, please include the word 'REVIEW' in all caps in your message body, with information on what you think the error was. Note that doing so allows us to review your entire assignment, which, while unlikely, may result in an overall lower score. Aside from the review, you may ask any questions about your submission without fear of penalty. The assignment rubric, with extra information on how to read the errors, can be found on GitHub ($RubricUrl)." | fmt)"
 sed -i 's/\r//g' $GradeFile

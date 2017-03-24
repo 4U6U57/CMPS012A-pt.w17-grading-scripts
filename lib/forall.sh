@@ -2,9 +2,9 @@
 
 # forall.sh
 # Runs input $CMD forall submissions in $ASG directory
-# Usage: forall $ASG $CMD
+# Usage: forall.sh $ASG $CMD
 # Or, if running from within directory named $ASG (such as $CLASS/$ASG or $CLASS/bin/$ASG)
-#        forall $CMD
+#        forall.sh $CMD
 # August Valera <avalera>
 
 PwdDir=$(pwd)
