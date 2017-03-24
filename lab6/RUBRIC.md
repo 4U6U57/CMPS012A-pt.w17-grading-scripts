@@ -42,10 +42,10 @@ The errors are specified in regular expression format. Here are some tips for
 reading them.
 
 - `\-` means a literal dash
-- `\s` means a literal space
+- `\s` means a literal space or tab
 - `{char}?` (any character, followed by a question mark) means either 0 or one
     instance of that character.
-    - **Example:** `banana?s` would match both *banana* and *bananas*
+    - **Example:** `bananas?` would match both *banana* and *bananas*
 - `{char}*` (any charcter, followed by an asterisk) means 0 or more instances of
     that character
     - **Example:** `sneks*` would match *sneks*, *snekss*, and *sneksssss*, and
