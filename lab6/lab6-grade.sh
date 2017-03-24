@@ -191,6 +191,7 @@ fi
 
 # Comment block bonus points
 if [[ -e ${StudentTable["ErrorsFile"]} ]]; then
+  StudentFirstName=$(echo $StudentName | cut -d " " -f 1)
   grep "${StudentTable["ErrorsFile"]}" ${StudentTable["ErrorsFile"]} >/dev/null && Score 1 0 "Comment block contained filename: ${StudentTable["ErrorsFile"]}"
   grep "$StudentFirstName" ${StudentTable["ErrorsFile"]} >/dev/null && Score 1 0 "Comment block contained your name: $StudentFirstName"
   grep -i "$Student" ${StudentTable["ErrorsFile"]} >/dev/null && Score 1 0 "Comment block contained CruzID"
@@ -212,6 +213,7 @@ done
 
 # Generate gradefile header
 [[ $StudentScore -gt $MaxScore ]] && StudentScore=$MaxScore
+grep "$Student" $AsgBinDir/HALF.md && StudentScore=$((StudentScore / 2))
 [[ $MaxScore -eq 0 ]] && StudentPercent=0 || StudentPercent=$((StudentScore * 100 / MaxScore))
 rm -f $GradeFile && touch $GradeFile
 Print -e "CLASS:\t\t$Class"
@@ -226,6 +228,7 @@ cat $ScoreFile >> $GradeFile && rm -f $ScoreFile
 Print
 Print "SUBMISSION INFO:"
 Print && Print "Your directory listing:" && Print "${StudentTable["ls"]}"
+grep "$Student" $AsgBinDir/HALF.md && Print && Print "Your submission was marked late by the instructor. As a result, your score has been halved."
 Print
 Print "GRADING INFO:"
 Print
