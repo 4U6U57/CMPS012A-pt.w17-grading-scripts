@@ -229,6 +229,6 @@ Print && Print "Your directory listing:" && Print "${StudentTable["ls"]}"
 Print
 Print "GRADING INFO:"
 Print
-RubricUrl=""
+RubricUrl="https://github.com/legendddhgf/CMPS012A-pt.w17-grading-scripts/blob/master/lab6/RUBRIC.md"
 Print "$(echo "For questions or concerns about your grade, please send a REPLY to this email from your UCSC account. If you believe your assignment has been graded in error, please include the word 'REVIEW' in all caps in your message body, with information on what you think the error was. Note that doing so allows us to review your entire assignment, which, while unlikely, may result in an overall lower score. Aside from the review, you may ask any questions about your submission without fear of penalty. The assignment rubric, with extra information on how to read the errors, can be found on GitHub ($RubricUrl)." | fmt)"
 sed -i 's/\r//g' $GradeFile

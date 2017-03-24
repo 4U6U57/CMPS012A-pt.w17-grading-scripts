@@ -1,9 +1,9 @@
 # lab6 rubric
 
-lab6 was released on Wednesday, March 24, 2017. If you submitted the
-assignment, you should have received a grade report through your UCSC email with
-the subject "[cmps012a-pt.w17] lab6 grade for $USER". Your raw score should also
-appear on eCommons.
+lab6 was released on Friday, March 24, 2017. If you submitted the assignment,
+you should have received a grade report through your UCSC email with the subject
+"[cmps012a-pt.w17] lab6 grade for $USER". Your raw score should also appear on
+eCommons.
 
 The average for this assignment was an 18. As always, the lab is out of 20
 points, and a detailed breakdown is displayed below. I have included output in
