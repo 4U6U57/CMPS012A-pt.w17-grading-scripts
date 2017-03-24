@@ -13,6 +13,10 @@ contents 0 0 0 1 0 2 0 3 0 4 0 5 0 6 1 0 1 1 .. and run it) the results should
 come at no surprise. Of course, since some of the errors affect a range of
 inputs (fake example: 1 \*) the number of actual errors is not the sum of diffs.
 
+## Assignment Rubric
+
+The rubric for this assignment can be found [here](RUBRIC.md).
+
 ## Installation
 
 > By using this script, you agree to the linked
