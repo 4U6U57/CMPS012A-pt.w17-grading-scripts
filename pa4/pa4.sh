@@ -26,7 +26,7 @@ make
 
 if [ ! -e Roots ] || [ ! -x Roots ]; then # exist and executable
    echo ""
-   echo "Makefile doesn't create Roots!!!"
+   echo "Makefile doesn't correctly create Roots!!!"
    echo ""
    rm -f *.class
    javac Roots.java
@@ -58,7 +58,7 @@ fi
 echo ""
 
 # Compile unit tests
-echo "compiling unit tests"
+echo "compiling unit tests:"
 javac Roots.java RootsClient1.java RootsClient2.java RootsClient3.java
 
 
