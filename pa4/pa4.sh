@@ -59,7 +59,10 @@ echo ""
 
 # Compile unit tests
 echo "compiling unit tests:"
-javac Roots.java RootsClient1.java RootsClient2.java RootsClient3.java
+javac Roots.java
+javac RootsClient1.java
+javac RootsClient2.java
+javac RootsClient3.java
 
 
 echo ""
@@ -68,4 +71,4 @@ java RootsClient1
 java RootsClient2
 java RootsClient3
 
-rm -f *.class RootsClient Roots
+rm -f *.class RootsClient1 RootsClient2 RootsClient3 Roots
