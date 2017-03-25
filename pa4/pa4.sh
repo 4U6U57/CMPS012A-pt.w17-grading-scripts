@@ -12,7 +12,9 @@ for TYPE in in model-out; do
   done
 done
 
-curl $SRCDIR/RootsClient.java > RootsClient.java
+curl $SRCDIR/RootsClient1.java > RootsClient1.java
+curl $SRCDIR/RootsClient2.java > RootsClient2.java
+curl $SRCDIR/RootsClient3.java > RootsClient3.java
 
 if [ ! -d .backup ]; then
    mkdir .backup
