@@ -22,6 +22,18 @@ cp *.java Makefile .backup
 
 make
 
+if [ ! -e Roots ]; then
+   echo ""
+   echo "Makefile doesn't create Roots!!!"
+   echo ""
+   rm -f *.class
+   javac Roots.java
+   echo "Main-class: Roots" > Manifest
+   jar cvfm Roots Manifest *.class
+   rm Manifest
+   chmod +x Roots
+fi
+
 # Run tests
 echo "If nothing between '=' signs, then test is passed::"
 for NUM in $(seq 1 6); do
