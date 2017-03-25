@@ -67,8 +67,8 @@ javac RootsClient3.java
 
 echo ""
 echo "Unit Tests:"
-java RootsClient1
-java RootsClient2
-java RootsClient3
+timeout 0.5 java RootsClient1
+timeout 0.5 java RootsClient2
+timeout 0.5 java RootsClient3
 
 rm -f *.class RootsClient1 RootsClient2 RootsClient3 Roots
