@@ -22,7 +22,7 @@ cp *.java Makefile .backup
 
 make
 
-if [ ! -e Roots ]; then
+if [ ! -e Roots ] || [ ! -x Roots ]; then # exist and executable
    echo ""
    echo "Makefile doesn't create Roots!!!"
    echo ""
@@ -56,15 +56,14 @@ fi
 echo ""
 
 # Compile unit tests
-javac Roots.java > junkfile
-javac RootsClient.java > junkfile
-echo "Main-class: RootsClient" > Manifest
-jar cvfm RootsClient Manifest *.class > junkfile
-rm Manifest > junkfile
-chmod +x RootsClient > junkfile
-rm junkfile
+echo "compiling unit tests"
+javac Roots.java RootsClient1.java RootsClient2.java RootsClient3.java
 
+
+echo ""
 echo "Unit Tests:"
-RootsClient
+javac RootsClient1
+javac RootsClient2
+javac RootsClient3
 
 rm -f *.class RootsClient Roots
