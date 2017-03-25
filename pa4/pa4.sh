@@ -64,8 +64,8 @@ javac Roots.java RootsClient1.java RootsClient2.java RootsClient3.java
 
 echo ""
 echo "Unit Tests:"
-javac RootsClient1
-javac RootsClient2
-javac RootsClient3
+java RootsClient1
+java RootsClient2
+java RootsClient3
 
 rm -f *.class RootsClient Roots
