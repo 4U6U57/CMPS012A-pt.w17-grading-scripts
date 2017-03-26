@@ -6,7 +6,8 @@
 SRCDIR=https://raw.githubusercontent.com/legendddhgf/CMPS012A-pt.w17-grading-scripts/master/pa5
 # Get all necessary extras
 
-curl $SRCDIR/QueensUnitTests.java > QueensUnitTests.java
+curl $SRCDIR/QueensUnitTests1.java > QueensUnitTests1.java
+curl $SRCDIR/QueensUnitTests2.java > QueensUnitTests2.java
 
 for num in 1 2 3 4 5 6 7 8 9 10
 do
@@ -21,6 +22,19 @@ cp *.java Makefile .backup
 
 make
 
+if [ ! -e Queens ] || [ ! -x Queens ]; then # exist and executable
+   echo ""
+   echo "Makefile doesn't correctly create Queens!!!"
+   echo ""
+   rm -f *.class
+   javac Queens.java
+   echo "Main-class: Queens" > Manifest
+   jar cvfm Queens Manifest *.class
+   rm Manifest
+   chmod +x Queens
+fi
+
+
 TEST1=""
 TEST2="x"
 TEST3="-v"
@@ -28,9 +42,9 @@ TEST4="-v x"
 TEST5="5"
 TEST6="-v 5"
 TEST7="8"
-TEST8="-v 8"
-TEST9="11"
-TEST10="-v 11"
+TEST8="9"
+TEST9="10"
+TEST10="11"
 
 # Run tests
 echo "If nothing between '=' signs, then test is passed::"
@@ -116,15 +130,12 @@ fi
 echo ""
 
 # Compile unit tests
-javac Queens.java > junkfile
-javac QueensUnitTests.java > junkfile
-echo "Main-class: QueensUnitTests" > Manifest
-jar cvfm QueensUnitTests Manifest *.class > junkfile
-rm Manifest > junkfile
-chmod +x QueensUnitTests > junkfile
-rm junkfile
+javac Queens.java
+javac QueensUnitTests1.java
+javac QueensUnitTests2.java
 
 echo "Unit Tests:"
-QueensUnitTests
+timeout 0.5 java QueensUnitTests1
+timeout 0.5 java QueensUnitTests2
 
-rm -f *.class Queens QueensUnitTests
+rm -f *.class Queens
