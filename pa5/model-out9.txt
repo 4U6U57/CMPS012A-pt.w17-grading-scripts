@@ -1,1 +1,1 @@
-11-Queens has 2680 solutions
+10-Queens has 724 solutions
