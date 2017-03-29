@@ -17,12 +17,24 @@ curl $SRCDIR/ComplexTest.java > ComplexTest.java
 
 for num in 1 2 3 4
 do
-curl $SRCDIR/in$num.txt > in$num.txt
-curl $SRCDIR/model-out$num.txt > model-out$num.txt
-curl $SRCDIR/model-out${num}_1.txt > model-out${num}_1.txt
+   curl $SRCDIR/in$num.txt > in$num.txt
+   curl $SRCDIR/model-out$num.txt > model-out$num.txt
+   curl $SRCDIR/model-out${num}_1.txt > model-out${num}_1.txt
 done
 
 make
+
+if [ ! -e ComplexTest ] || [ ! -x ComplexTest ]; then # exist and executable
+   echo ""
+   echo "Makefile doesn't correctly create ComplexTest!!!"
+   echo ""
+   rm -f *.class
+   javac Complex.java ComplexTest.java
+   echo "Main-class: ComplexTest" > Manifest
+   jar cvfm ComplexTest Manifest *.class
+   rm Manifest
+   chmod +x ComplexTest
+fi
 
 echo ""
 
